@@ -35,9 +35,9 @@ The workshop will be taught via an online meeting platform by three instructors 
 **Day01** Introduction to Unity + C# Basics +Scene Setup + Installation of plug-ins  
 **Day02** Language-based neural networks with Tensorflow + Social media APIs   
 **Day03** Linking Python Servers with Unity and Social Media Platforms, Text based Animated Commands in Unity  
-**Day04** Interface Design, menu’s and cameras in Unity 
-**Day05** Interface Design, shaders and lighting in Unity  
-**Day06** Building and testing applications 
+**Day04** Interface Design, menu’s and cameras in Unity  
+**Day05** Interface Design, shaders and lighting in Unity    
+**Day06** Building and testing applications  
 
 
 ### Expected Outcome: 
