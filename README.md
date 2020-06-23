@@ -3,37 +3,33 @@
 ### Workshop for Digital Futures World: 
 https://www.digitalfutures.world/workshops-asia-pacific-blog/someen
 
+
 ### Workshop Leaders:  
 Soomeen Hahm + M. Casey Rehm + Damjan Jovanovic / SCI-Arc
 
-**Language:** English
 
-**Workshop Start time:** 02:00 GMT. Please check your local time for compatibility with this workshop’s schedule.
-
-**Schedule:**  Workshop  number of Days: 6  / Hours Per Day: 3
-
-**Number of Students:** Active Participating Students: 8  /  Auditing Students: 12
-
-**Livestream:** https://www.twitch.tv/soomeenhahm
+**Language:** English  
+**Workshop Start time:** 02:00 GMT. Please check your local time for compatibility with this workshop’s schedule.  
+**Schedule:**  Workshop  number of Days: 6  / Hours Per Day: 3  
+**Number of Students:** Active Participating Students: 8  /  Auditing Students: 12  
+**Livestream:** https://www.twitch.tv/soomeenhahm  
 
 
 ### Workshop Description:
-**Key Words:** Unity, AI, Game, Social Media, Real-time
-
-**Required Skills:** intermediate to advanced coding knowledge, basic to intermediate knowledge in game engine 
-
-**Required Software:**  Unity 2019 or up
-
-**Required Hardware:** Lab top with Windows system
-
-**Course Type:** Project
+**Key Words:** Unity, AI, Game, Social Media, Real-time  
+**Required Skills:** intermediate to advanced coding knowledge, basic to intermediate knowledge in game engine   
+**Required Software:**  Unity 2019 or up  
+**Required Hardware:** Lab top with Windows system  
+**Course Type:** Project  
 
 
 ### Abstract: 
 In this workshop participants will be using a game engine to develop an interactive project controlled by real-time social media. Machine learning tools will be explored for interpreting collective text from social media into three-dimensional form. Specific generative algorithms and sophisticated server controlled game development pipeline will be introduced during the workshop. The workshop will be taught with intensive computational skillsets which require participants with full-time and high-commitment involvement during the entire workshop period to develop a holistic and intensive team project.    
 
+
 ### Organization: 
 The workshop will be taught via an online meeting platform by three instructors from SCI-Arc. There will be 4 hours of intensive workshop tutorials each day followed by daily project development assignments. We highly recommend only those participants who are interested in developing their coding and computational skills to participate in the preparation of being able to handle intense and focused learning and production routine. Any previous knowledge in coding and game engine is not required but highly appreciated.   
+
 
 ### Daily Schedule: 
 **Day01** Introduction to Unity + C# Basics +Scene Setup + Installation of plug-ins  
@@ -43,8 +39,10 @@ The workshop will be taught via an online meeting platform by three instructors 
 **Day05** Interface Design, shaders and lighting in Unity  
 **Day06** Building and testing applications 
 
+
 ### Expected Outcome: 
 An interactive game which generates virtual urban/architectural environment in real-time controlled by remote multi-users via social media. Relevant documentation such as presentation slides and videos explaining the development process as well as the final game project.
+
 
 ### About the Instructors:
 
