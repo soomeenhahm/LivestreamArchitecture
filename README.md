@@ -1,7 +1,8 @@
 # LivestreamArchitecture
 https://www.digitalfutures.world/workshops-asia-pacific-blog/someen
 
-Workshop Leaders:  Soomeen Hahm + M. Casey Rehm + Damjan Jovanovic / SCI-Arc
+# Workshop Leaders:  
+Soomeen Hahm + M. Casey Rehm + Damjan Jovanovic / SCI-Arc
 
 Language: English
 Workshop Start time: 02:00 GMT. Please check your local time for compatibility with this workshop’s schedule.
