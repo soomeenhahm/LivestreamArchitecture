@@ -34,7 +34,7 @@ public class WorldAgentDay1 : MonoBehaviour
         for (int i = 0; i < growthGens; i++)
         {
            
-           dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
+           dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds/2), Random.Range(-worldBounds, worldBounds));
                    
            sortObjects();
            loadWorld();
