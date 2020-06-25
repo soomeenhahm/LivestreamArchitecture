@@ -93,7 +93,7 @@ namespace UnityTemplateProjects
             //{
             //    direction += Vector3.back;
             //}
-            direction += (Input.mouseScrollDelta.y )*Vector3.forward;
+            direction += (Input.mouseScrollDelta.y *4.0f)*Vector3.forward;
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 direction += Vector3.left;

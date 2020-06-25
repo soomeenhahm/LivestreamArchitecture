@@ -1042,6 +1042,7 @@ MonoBehaviour:
   worldBounds: 10
   worldScale: 1
   spawnDis: 1
+  growthGens: 2
   tempTextInput: {fileID: 443402420}
   myText: {fileID: 0}
   myCommandText: {fileID: 0}

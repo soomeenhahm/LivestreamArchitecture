@@ -11,6 +11,9 @@ public class WorldAgentCreate : MonoBehaviour
     public float worldBounds;
     public float worldScale;
     public float spawnDis;
+    public float growthGens;
+
+
     private GameObject curObj;
 
 
@@ -29,6 +32,7 @@ public class WorldAgentCreate : MonoBehaviour
     private float planTimer = 0.0f;
     private float waitTime = 5.0f;
     private bool trigger;
+    private Vector3 dlaTarget;
 
 
     // Start is called before the first frame update
@@ -48,10 +52,12 @@ public class WorldAgentCreate : MonoBehaviour
         currentMaterialList = new List<Material>();
         Vector3[] tempV = { new Vector3(-1, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, -1), new Vector3(0, 0, 1), new Vector3(0, 1, 0) };
         tickList = new List<Vector3>(tempV);
-       
+
         switchOn = false;
         trigger = false;
         currentCommands = "pending";
+
+        dlaTarget = new Vector3();
     }
 
     private void Update()
@@ -62,6 +68,7 @@ public class WorldAgentCreate : MonoBehaviour
 
     public void stringSort()//string inString
     {
+        
         //temporary string from textfield
         var inString = tempTextInput.text;
         ////
@@ -70,32 +77,40 @@ public class WorldAgentCreate : MonoBehaviour
 
         inString = inString.ToLower();
         var curVec = tickList[0];
-        if (inString.Contains("right"))
+        for (int i = 0; i < growthGens; i++)
         {
-            curVec = tickList[1];
-        }
-        else if (inString.Contains("left"))
-        {
-            curVec = tickList[0];
-        }
-        else if (inString.Contains("forward"))
-        {
-            curVec = tickList[2];
-        }
-        else if (inString.Contains("back"))
-        {
-            curVec = tickList[3];
-        }
-        else if (inString.Contains("up"))
-        {
-            curVec = tickList[4];
+            if (inString.Contains("right"))
+            {
+                dlaTarget = new Vector3(worldBounds, Random.Range(0,worldBounds), Random.Range(-worldBounds,worldBounds));
+                curVec = tickList[1];
+            }
+            else if (inString.Contains("left"))
+            {
+                dlaTarget = new Vector3(-worldBounds, Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
+                curVec = tickList[0];
+            }
+            else if (inString.Contains("forward"))
+            {
+                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), worldBounds);
+                curVec = tickList[2];
+            }
+            else if (inString.Contains("back"))
+            {
+                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), -worldBounds);
+                curVec = tickList[3];
+            }
+            else if (inString.Contains("up"))
+            {
+                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), worldBounds, Random.Range(-worldBounds, worldBounds));
+                curVec = tickList[4];
+            }
+
+
+            //sortMaterials(inString);
+            sortObjects(inString);
+            loadWorld(curVec);
         }
 
-       
-        sortMaterials(inString);
-        sortObjects(inString);
-        loadWorld(curVec);
-       
     }
 
     private void sortObjects(string testString)
@@ -139,24 +154,35 @@ public class WorldAgentCreate : MonoBehaviour
             currentMaterialList = new List<Material>(matL);
 
         }
-        
+
     }
 
     public void loadWorld(Vector3 growDir)
     {
-        
 
+        
             //var wAB = GetComponent<WorldAgentBehavior>();        
 
 
-
-
-
+            var startDla = new Vector3();
             var start = growDir * spawnDis;
             if (switchOn && curObj != null)//switchOn &&
             {
                 start = start + curObj.transform.position;
+                startDla = dlaTarget - curObj.transform.position;
+                startDla = forceOrtho(startDla);
+                startDla.Normalize();
+                startDla = startDla + curObj.transform.position;
             }
+            else
+            {
+                startDla = dlaTarget;
+                startDla = forceOrtho(startDla);
+                startDla.Normalize();
+                startDla.y += .5f;
+            }
+
+
 
             start.y = start.y + .75f;
 
@@ -164,7 +190,7 @@ public class WorldAgentCreate : MonoBehaviour
             //var renderer = tempObj.GetComponentInChildren<Renderer>();
             //var matIndex = (int)Mathf.Floor(Random.Range(0, currentMaterialList.Count));
             //renderer.material = currentMaterialList[matIndex];
-            tempObj.transform.position = start;
+            tempObj.transform.position = startDla;
             //tempObj.transform.localScale = new Vector3(1.35f, 1.35f, 1.35f);
             tempObj.layer = 10;
             var info = tempObj.GetComponent<TPA_Info>();
