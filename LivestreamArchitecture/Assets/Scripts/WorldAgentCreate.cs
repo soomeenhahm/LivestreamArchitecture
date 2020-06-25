@@ -7,10 +7,8 @@ using TMPro;
 
 public class WorldAgentCreate : MonoBehaviour
 {
-    public int worldCnt;
+
     public float worldBounds;
-    public float worldScale;
-    public float spawnDis;
     public float growthGens;
 
 
@@ -19,20 +17,16 @@ public class WorldAgentCreate : MonoBehaviour
 
     public TMP_InputField tempTextInput;
 
-    public Text myText;
+    public Text userText;
     public Text myCommandText;
     public string currentCommands;
     private List<GameObject> objL;
     private List<GameObject> currentObjList;
     private List<Material> matL;
     private List<Material> currentMaterialList;
-    private List<Vector3> tickList;
-    private bool planCheck;
-    private bool switchOn;
-    private float planTimer = 0.0f;
-    private float waitTime = 5.0f;
-    private bool trigger;
+
     private Vector3 dlaTarget;
+    private List<GameObject> activeList;
 
 
     // Start is called before the first frame update
@@ -45,19 +39,13 @@ public class WorldAgentCreate : MonoBehaviour
             var infoTag = objL[i].GetComponent<TPA_Info>();
             infoTag.idNumber = i;
         }
-
         currentObjList = new List<GameObject>();
         Material[] tempM = Resources.LoadAll<Material>("PartMaterials");
         matL = new List<Material>(tempM);
         currentMaterialList = new List<Material>();
-        Vector3[] tempV = { new Vector3(-1, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, -1), new Vector3(0, 0, 1), new Vector3(0, 1, 0) };
-        tickList = new List<Vector3>(tempV);
-
-        switchOn = false;
-        trigger = false;
         currentCommands = "pending";
-
         dlaTarget = new Vector3();
+        activeList = new List<GameObject>();
     }
 
     private void Update()
@@ -68,47 +56,44 @@ public class WorldAgentCreate : MonoBehaviour
 
     public void stringSort()//string inString
     {
-        
+
         //temporary string from textfield
         var inString = tempTextInput.text;
         ////
         currentCommands = "";
-        var uname = inString.Split(':')[0];
-
         inString = inString.ToLower();
-        var curVec = tickList[0];
         for (int i = 0; i < growthGens; i++)
         {
             if (inString.Contains("right"))
             {
-                dlaTarget = new Vector3(worldBounds, Random.Range(0,worldBounds), Random.Range(-worldBounds,worldBounds));
-                curVec = tickList[1];
+                dlaTarget = new Vector3(worldBounds, Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
+
             }
             else if (inString.Contains("left"))
             {
                 dlaTarget = new Vector3(-worldBounds, Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
-                curVec = tickList[0];
+
             }
             else if (inString.Contains("forward"))
             {
                 dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), worldBounds);
-                curVec = tickList[2];
+
             }
             else if (inString.Contains("back"))
             {
                 dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), -worldBounds);
-                curVec = tickList[3];
+
             }
             else if (inString.Contains("up"))
             {
                 dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), worldBounds, Random.Range(-worldBounds, worldBounds));
-                curVec = tickList[4];
+
             }
 
 
             //sortMaterials(inString);
             sortObjects(inString);
-            loadWorld(curVec);
+            loadWorld();
         }
 
     }
@@ -157,52 +142,43 @@ public class WorldAgentCreate : MonoBehaviour
 
     }
 
-    public void loadWorld(Vector3 growDir)
-    {
-
-        
-            //var wAB = GetComponent<WorldAgentBehavior>();        
+    public void loadWorld()
+    {        
 
 
-            var startDla = new Vector3();
-            var start = growDir * spawnDis;
-            if (switchOn && curObj != null)//switchOn &&
-            {
-                start = start + curObj.transform.position;
-                startDla = dlaTarget - curObj.transform.position;
-                startDla = forceOrtho(startDla);
-                startDla.Normalize();
-                startDla = startDla + curObj.transform.position;
-            }
-            else
-            {
-                startDla = dlaTarget;
-                startDla = forceOrtho(startDla);
-                startDla.Normalize();
-                startDla.y += .5f;
-            }
+        var startDla = new Vector3();
+        var orient = new Vector3();
+
+        if (curObj != null)//switchOn &&
+        {
+            startDla = dlaTarget - curObj.transform.position;
+            startDla = forceOrtho(startDla);
+            startDla.Normalize();
+            startDla = startDla + curObj.transform.position;
+        }
+        else
+        {
+            orient = dlaTarget;
+            orient = forceOrtho(startDla);
+
+            startDla = new Vector3(0, .5f, 0);
+        }
 
 
 
-            start.y = start.y + .75f;
+       
 
-            var tempObj = Instantiate(currentObjList[0], transform);
-            //var renderer = tempObj.GetComponentInChildren<Renderer>();
-            //var matIndex = (int)Mathf.Floor(Random.Range(0, currentMaterialList.Count));
-            //renderer.material = currentMaterialList[matIndex];
-            tempObj.transform.position = startDla;
-            //tempObj.transform.localScale = new Vector3(1.35f, 1.35f, 1.35f);
-            tempObj.layer = 10;
-            var info = tempObj.GetComponent<TPA_Info>();
-            info.lifeSpan = (int)Mathf.Floor(Random.Range(2500, 4000));
-            //wAB.WorldAgentList.Add(tempObj);               
-            curObj = tempObj;
-
-
-
-            switchOn = true;
-
-        
+        var tempObj = Instantiate(currentObjList[0], transform);
+        //var renderer = tempObj.GetComponentInChildren<Renderer>();
+        //var matIndex = (int)Mathf.Floor(Random.Range(0, currentMaterialList.Count));
+        //renderer.material = currentMaterialList[matIndex];
+        tempObj.transform.position = startDla;
+        //tempObj.transform.localScale = new Vector3(1.35f, 1.35f, 1.35f);
+        tempObj.layer = 10;
+        var info = tempObj.GetComponent<TPA_Info>();
+        info.lifeSpan = (int)Mathf.Floor(Random.Range(2500, 4000));
+        //wAB.WorldAgentList.Add(tempObj);               
+        curObj = tempObj;
 
     }
 

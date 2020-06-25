@@ -34,7 +34,7 @@ public class WorldAgentDay1 : MonoBehaviour
         for (int i = 0; i < growthGens; i++)
         {
            
-           dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds/2), Random.Range(-worldBounds, worldBounds));
+           dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
                    
            sortObjects();
            loadWorld();
@@ -62,10 +62,10 @@ public class WorldAgentDay1 : MonoBehaviour
         }
         else
         {
-            startDla = dlaTarget;
-            startDla = forceOrtho(startDla);
-            orient = startDla;
-            startDla.y += .5f;
+            orient = dlaTarget;
+            orient = forceOrtho(startDla);
+
+            startDla = new Vector3(0, .5f, 0);
         }        
 
         var tempObj = Instantiate(currentObjList[0], transform);       
@@ -73,7 +73,6 @@ public class WorldAgentDay1 : MonoBehaviour
         tempObj.transform.rotation = Quaternion.LookRotation(orient, Vector3.up);
         var info = tempObj.GetComponent<TPA_Info>();                   
         curObj = tempObj;
-    
 
 
 

@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Scripts\TPA_Info.cs" />
     <Compile Include="Assets\Scripts\WorldAgentCreate.cs" />
+    <Compile Include="Assets\Scripts\WorldAgentCreateDay2.cs" />
     <Compile Include="Assets\Scripts\WorldAgentDay1.cs" />
     <Compile Include="Assets\Scripts\clientUtil.cs" />
     <Compile Include="Assets\Scripts\serverManager.cs" />
