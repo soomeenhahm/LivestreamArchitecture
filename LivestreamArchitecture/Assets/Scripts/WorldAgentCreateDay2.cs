@@ -72,22 +72,22 @@ public class WorldAgentCreateDay2 : MonoBehaviour
         {
             if (inString.Contains("right"))
             {
-                dlaTarget = new Vector3(worldBounds, Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
+                dlaTarget = new Vector3(Random.Range(worldBounds/2, worldBounds), Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
 
             }
             else if (inString.Contains("left"))
             {
-                dlaTarget = new Vector3(-worldBounds, Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
+                dlaTarget = new Vector3(Random.Range(-worldBounds , -worldBounds/2), Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds));
 
             }
             else if (inString.Contains("forward"))
             {
-                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), worldBounds);
+                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), Random.Range(worldBounds / 2, worldBounds));
 
             }
             else if (inString.Contains("back"))
             {
-                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), -worldBounds);
+                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), Random.Range(0, worldBounds), Random.Range(-worldBounds, -worldBounds / 2));
 
             }
             else if (inString.Contains("up"))
@@ -97,7 +97,7 @@ public class WorldAgentCreateDay2 : MonoBehaviour
             }
             else if (inString.Contains("down"))
             {
-                dlaTarget = new Vector3(Random.Range(-worldBounds, worldBounds), 0.0f, Random.Range(-worldBounds, worldBounds));
+                dlaTarget = new Vector3(Random.Range(-worldBounds/2, worldBounds/2), 0.0f, Random.Range(-worldBounds/2, worldBounds/2));
 
             }
 
