@@ -10,13 +10,17 @@ using System.Threading;
 public class clientUtil : MonoBehaviour
 {
     internal Boolean outSocketReady = false;
-    public WorldAgentCreate myCreate;
-    public string curString;
-    public string oldString;
+    public WoldAgentDay3 myCreate;
+    public string curString;    
+
+    public int outPort = 5505;
+    
+
     private string myMsg;
     TcpClient outSocket;
     private Thread clientReceiveThread;
     private bool newText;
+    private bool connectTry = true;
     NetworkStream outStream;
 
     StreamWriter theWriter;
@@ -27,7 +31,7 @@ public class clientUtil : MonoBehaviour
     void Start()
     {
         curString = "kitty";
-        oldString = "kitty";
+       
         newText = false;
         
     }
@@ -35,14 +39,34 @@ public class clientUtil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(oldFloat != curFloats[0]){
+        
         if (newText)
         {
-           // myCreate.stringSort(curString);
-            oldString = curString;
+            myCreate.stringSort(curString);
+            
             newText = false;
         }
-        //}
+      
+    }
+
+    public void connectServer()
+    {
+        if (connectTry)
+        {
+            setupOutSocket(outPort);
+            Debug.Log("trying to connect");
+            connectTry = false;
+        }
+        else
+        {
+            CloseServer();
+        }
+    }
+
+    public void CloseServer()
+    {
+        closeOutSocket();
+
     }
 
     public void setupOutSocket(Int32 oP)
@@ -50,8 +74,7 @@ public class clientUtil : MonoBehaviour
         try
         {
             outSocket = new TcpClient(Host, oP);
-            outStream = outSocket.GetStream();
-            //theWriter = new StreamWriter(outStream);            
+            outStream = outSocket.GetStream();              
             outSocketReady = true;
             clientReceiveThread = new Thread(new ThreadStart(ListenForData));
             clientReceiveThread.IsBackground = true;
@@ -64,22 +87,6 @@ public class clientUtil : MonoBehaviour
     }
 
 
-    public void writeSocket(string theLine, bool end)
-    {
-        if (!outSocketReady)
-            return;
-        String outString = theLine;// 
-        myMsg = theLine;
-        byte[] byteData = Encoding.ASCII.GetBytes(outString);
-        var lengthBuffer = BitConverter.GetBytes(byteData.Length);
-        IAsyncResult r = outStream.BeginWrite(byteData, 0, byteData.Length, null, null);
-        r.AsyncWaitHandle.WaitOne();
-        outStream.EndWrite(r);
-        //outStream.Write(lengthBuffer, 0, lengthBuffer.Length);
-        //outStream.Write(byteData, 0, byteData.Length);
-        outStream.Flush();
-
-    }
 
     public void closeOutSocket()
     {

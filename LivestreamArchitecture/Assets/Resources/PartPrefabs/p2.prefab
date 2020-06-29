@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5184826719797602769}
   - component: {fileID: 8520336268919058756}
-  - component: {fileID: 5007217836503002248}
   - component: {fileID: 5583784972029384739}
   m_Layer: 0
   m_Name: p2
@@ -43,26 +42,10 @@ BoxCollider:
   m_GameObject: {fileID: 6695066387555059946}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5007217836503002248
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6695066387555059946}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!114 &5583784972029384739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,7 +61,7 @@ MonoBehaviour:
   lifeSpan: 100
   idNumber: 1
   matchNumber: 0
-  keyWords: 
+  keyWords: anticipation
   tweet: 
 --- !u!1 &7919515691657614897
 GameObject:
