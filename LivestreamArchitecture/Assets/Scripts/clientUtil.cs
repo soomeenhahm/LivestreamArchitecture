@@ -10,7 +10,7 @@ using System.Threading;
 public class clientUtil : MonoBehaviour
 {
     internal Boolean outSocketReady = false;
-    public WoldAgentDay3 myCreate;
+    public WorldAgentDay3WS myCreate;
     public string curString;    
 
     public int outPort = 5505;
@@ -42,8 +42,7 @@ public class clientUtil : MonoBehaviour
         
         if (newText)
         {
-            myCreate.stringSort(curString);
-            
+            myCreate.stringSort(curString);            
             newText = false;
         }
       

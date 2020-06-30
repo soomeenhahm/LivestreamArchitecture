@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/df3_ThirdDay.unity
+- path: Assets/Scenes/df3_ThirdDayWorkshop.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
