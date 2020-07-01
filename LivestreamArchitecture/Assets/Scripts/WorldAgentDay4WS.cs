@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class WoldAgentDay3 : MonoBehaviour
+public class WorldAgentDay4WS : MonoBehaviour
 {
     public float worldBounds;
-    public int growthGens;    
-
-    //for linking to text UI elements
+    public int growthGens;
     public string commandText;
     public string userText;
     public string nnText;
 
     private Vector3 dlaTarget;
 
+    public GameObject Target;
+
     private GameObject curObj;
     private List<GameObject> objL;
-    private List<List<GameObject>> categorizedList;
     private List<GameObject> currentObjList;
     private List<Material> matL;
     private List<Material> currentMaterialList;
     private List<GameObject> activeList;
+    private List<List<GameObject>> catogorizedList;
     private List<float> nnVals;
 
 
@@ -30,28 +30,44 @@ public class WoldAgentDay3 : MonoBehaviour
     {
         GameObject[] tempA = Resources.LoadAll<GameObject>("PartPrefabs");
         objL = new List<GameObject>(tempA);
-        categorizedList = new List<List<GameObject>>();
-        categorizeObjects();
         currentObjList = new List<GameObject>();
         Material[] tempM = Resources.LoadAll<Material>("PartMaterials");
         matL = new List<Material>(tempM);
         currentMaterialList = new List<Material>();
         activeList = new List<GameObject>();
+        nnVals = new List<float>();
+        catogorizedList = new List<List<GameObject>>();
+        catogorizeObjs();
+    }
+
+
+    private void Update()
+    {
+        if(curObj != null)
+        {
+            Target.transform.position = curObj.transform.position;
+        }
+        else
+        {
+            Target.transform.position = new Vector3(0f, 0.5f, 0f);
+        }
+
     }
 
 
     public void stringSort(string serverText)//string inString
     {
-        //split the incoming string from the server
         userText = serverText.Split(':')[0];
         commandText = serverText.Split(':')[1];
-        var nnText = serverText.Split(':')[2];
-        string2floatList(nnText);
-        sortObjects();
-
         commandText = commandText.ToLower();
+        nnText = serverText.Split(':')[2];
+        string2floatList(nnText);
 
-        
+        Debug.Log("user: " + userText);
+        Debug.Log("command: " + commandText);
+        Debug.Log("scores: " + nnText);
+
+        sortObjects();
 
         for (int i = 0; i < growthGens; i++)
         {
@@ -78,71 +94,60 @@ public class WoldAgentDay3 : MonoBehaviour
             }
             else if (commandText.Contains("back"))
             {
-                dlaTarget = new Vector3(Random.Range(-worldBounds / 2, worldBounds / 2), Random.Range(0, worldBounds), Random.Range(-worldBounds, -worldBounds / 2));
-            }
-            else
-            {
-                dlaTarget = new Vector3(Random.Range(-worldBounds , worldBounds ), Random.Range(0, worldBounds), Random.Range(-worldBounds, worldBounds ));
+                dlaTarget = new Vector3(Random.Range(-worldBounds / 2, worldBounds / 2), Random.Range(0, worldBounds), -Random.Range(-worldBounds, -worldBounds / 2));
             }
 
-                       
-            
             sortMaterials(commandText);
             loadWorld();
         }
-
     }
 
-    private void categorizeObjects()
+    private void catogorizeObjs()
     {
-        var catList = new List<string>(new string[] { "anger","anticipation", "disgust" ,"fear", "joy", "sadness", "surprise" });
-        for (int i = 0; i < catList.Count; i++)
+        var cats = new string[] { "anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise" };
+        for (int i = 0; i < cats.Length; i++)
         {
             var tempList = new List<GameObject>();
             for (int j = 0; j < objL.Count; j++)
             {
-                var objInfo = objL[j].GetComponent<TPA_Info>();
-                if (objInfo.keyWords.Contains(catList[i]))
+                var info = objL[j].GetComponent<TPA_Info>();
+                if (info.keyWords.Contains(cats[i]))
                 {
                     tempList.Add(objL[j]);
-
                 }
             }
-            categorizedList.Add(tempList);
+            catogorizedList.Add(tempList);
+            Debug.Log("cat count: " + cats[i] + tempList.Count);
         }
     }
 
     private void sortObjects()
     {
-        if (currentObjList != null)
+        var cats = new string[] { "anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise" };
+        currentObjList = new List<GameObject>();
+        for (int i = 0; i < nnVals.Count; i++)
         {
-            currentObjList.Clear();
-        }
-        
-        for(int i = 0; i < nnVals.Count; i++)
-        {
-            var catTotal =  nnVals[i] * 10.0f;
-            //Debug.Log("current Cat: " + i);
-            //Debug.Log("current CatTot: " + catTotal);
+            var nnCount = 10 * nnVals[i];
 
-            if (catTotal > 0)
+            Debug.Log("Cat: " + cats[i] + nnCount);
+            if (nnCount > 1)
             {
-                
-                for (int j = 0; j < catTotal; j++)
+                for (int j = 0; j < nnCount; j++)
                 {
-                    if (categorizedList[i].Count > 1)
+                    if (catogorizedList[i].Count > 1)
                     {
-                        currentObjList.Add(categorizedList[i][(int)Mathf.Floor(Random.Range(0, categorizedList[i].Count))]);
+                        var gO = catogorizedList[i][(int)Mathf.Floor(Random.Range(0, catogorizedList[i].Count))];
+                        currentObjList.Add(gO);
                     }
                     else
                     {
-                        currentObjList.Add(categorizedList[i][0]);
+                        var gO = catogorizedList[i][0];
+                        currentObjList.Add(gO);
                     }
                 }
-            }            
-           
+            }
         }
-        if (currentObjList.Count == 0)
+        if (currentObjList.Count > 0)
         {
             currentObjList.Add(objL[(int)Mathf.Floor(Random.Range(0, objL.Count))]);
         }
@@ -181,6 +186,7 @@ public class WoldAgentDay3 : MonoBehaviour
             startDla = dlaTarget - curObj.transform.position;
             startDla = forceOrtho(startDla);
             orient = startDla;
+            //comment out detect collide if you want parts to overlay
             detectCollide(curObj.transform.position, orient);
             startDla = startDla + curObj.transform.position;
         }
@@ -194,7 +200,7 @@ public class WoldAgentDay3 : MonoBehaviour
 
 
 
-        var tempObj = Instantiate(currentObjList[(int) Mathf.Floor(Random.Range(0,currentObjList.Count))], transform);
+        var tempObj = Instantiate(currentObjList[(int)Mathf.Floor(Random.Range(0, currentObjList.Count))], transform);
         tempObj.transform.position = startDla;
         if (orient.y != 0)
         {
@@ -219,10 +225,7 @@ public class WoldAgentDay3 : MonoBehaviour
 
         var info = tempObj.GetComponent<TPA_Info>();
         curObj = tempObj;
-               
     }
-
-    
 
     private void detectCollide(Vector3 p, Vector3 dir)
     {
@@ -236,14 +239,13 @@ public class WoldAgentDay3 : MonoBehaviour
         }
     }
 
-    private void string2floatList(string inText)
+    private void string2floatList(string inString)
     {
-        var sVals = inText.Split(' ');
-        //Debug.Log("length of sVals: " + sVals.Length);
+        var sVals = inString.Split(' ');
         nnVals = new List<float>();
-        float x = 0;
         for (int i = 0; i < sVals.Length; i++)
         {
+            float x = 0;
             float.TryParse(sVals[i], out x);
             if (x > 0)
             {
@@ -254,9 +256,7 @@ public class WoldAgentDay3 : MonoBehaviour
                 nnVals.Add(0.0f);
             }
         }
-        
     }
-
 
     private Vector3 forceOrtho(Vector3 inVec)
     {

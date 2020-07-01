@@ -10,7 +10,7 @@ using System.Threading;
 public class clientUtil : MonoBehaviour
 {
     internal Boolean outSocketReady = false;
-    public WorldAgentDay3WS myCreate;
+    public WorldAgentDay4WS myCreate;
     public string curString;    
 
     public int outPort = 5505;
